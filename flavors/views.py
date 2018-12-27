@@ -6,7 +6,7 @@ from .models import Flavor
 def index (request):
 	flavors = Flavor.objects.all
 
-	if flavors.count() == 0:
+	if Flavor.objects.count() == 0:
 		Flavor.objects.bulk_create(
 			[
 				Flavor(
