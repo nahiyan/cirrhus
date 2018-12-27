@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'logs',
     'core',
     'input_data',
-    'flowers',   
+    'flowers',
 ]
 
 MIDDLEWARE = [
