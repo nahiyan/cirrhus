@@ -1,0 +1,57 @@
+{% extends "sine/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url 'sine:index' %}">Sine</a></li>
+		<li><a href="{% url 'sine:run' %}">Run</a></li>
+		<li><a href="">Output</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block head %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
+{% endblock %}
+
+{% block content %}
+<h1 class="title">Output</h1>
+
+<div id="graph"></div>
+{% endblock %}
+
+{% block script %}
+window.onload = function(){
+
+    var data = [
+    	{% for output in outputs %}
+		[
+			{% if compare == 'no' %}
+				{{ output.0 }},
+				{{ output.1 }}
+			{% else %}
+				{{ output.0 }},
+				{{ output.1 }},
+				{{ output.2 }}
+			{% endif %}
+		],
+    	{% endfor %}
+    ];
+
+    new Dygraph(
+    	document.getElementById("graph"),
+		data,
+		{
+			{% if compare == 'no' %}
+				labels: ["Input", "Output"],
+			{% else %}
+				labels: ["Input", "Output", "Actual"],
+			{% endif %}
+			
+			xlabel: [ "x" ],
+			ylabel: [ "y" ]
+		});
+};
+{% endblock %}

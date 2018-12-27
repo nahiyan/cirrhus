@@ -1,0 +1,36 @@
+{% extends "training_sessions/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'training_sessions:list' ''|add:flavor.machine_name %}">Training Sessions</a></li>
+		<li><a href="">Create</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>New Training Session</h1>
+
+<form action='' method='POST'>
+	{% csrf_token %}
+
+	<div class="field">
+		<label class="label" for="name">Name</label>
+		<div class="control">
+			<input class="input" name="name" id="name" type="text" placeholder="Name">
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label" for="hidden_layers">Hidden Layers</label>
+		<div class="control">
+			<input class="input" name="hidden_layers" id="hidden_layers" type="text" placeholder="Hidden Layers. E.g. 2, 5, 10">
+		</div>
+	</div>
+
+	<input type='submit' class="button is-primary" value='Create'>
+</form>
+{% endblock %}

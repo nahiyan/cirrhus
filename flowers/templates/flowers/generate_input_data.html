@@ -1,0 +1,32 @@
+{% extends "flowers/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url 'flowers:index' %}">Flowers</a></li>
+		<li><a href="{% url 'input_data:list' 'flowers' %}">Input Data</a></li>
+		<li><a href="#">Generate</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class="title">Generate Training Data</h1>
+
+<form action='' method='POST'>
+	{% csrf_token %}
+	
+	<div class="field">
+		<label class="label">Sample Data</label>
+
+		<div class="select is-multiple">
+			<select multiple size="1" name='sample_data'>
+			    <option value="simple" selected>Simple</option>
+			</select>
+		</div>
+	</div>
+
+	<input type='submit' class="button is-success" value='Generate'>
+</form>
+{% endblock %}

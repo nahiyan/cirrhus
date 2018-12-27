@@ -1,0 +1,48 @@
+{% extends "flowers/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url 'flowers:index' %}">Flowers</a></li>
+		<li><a href="{% url 'flowers:run' %}">Run</a></li>
+		<li><a href="">Output</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class="title">Output</h1>
+
+
+<table class='table' width='100%'>
+	<thead>
+		<tr>
+			<th>Length</th>
+			<th>Width</th>
+			<th>Color</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for output in outputs %}
+		<tr>
+			<td>
+				{{ output.0 }}
+			</td>
+			<td>
+				{{ output.1 }}
+			</td>
+			<td>
+				{% if output.2 >= 0.5 %}
+					Red
+				{% else %}
+					Blue
+				{% endif %}
+				({{ output.2}})
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "training_sessions/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="">Training Sessions</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>List of Training Sessions</h1>
+
+<a href='{% url "training_sessions:create" flavor.machine_name %}' class='button'>New Training Session</a>
+
+<hr>
+
+<table class='table' width='100%'>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Status</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for training_session in training_sessions %}
+		<tr>
+			<td>
+				{{ training_session.id }}
+			</td>
+			<td>
+				<a href='{% url "training_sessions:detail" 0|add:training_session.id %}'>{{ training_session.name }}</a>
+			</td>
+			<td>
+				{{ training_session.status }}
+			</td>
+			<td>
+				<a href='{% url "training_sessions:run" training_session.id %}' class='button'>Run</a>
+				<a href='{% url "training_sessions:delete" training_session.id %}' class='button'>Delete</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

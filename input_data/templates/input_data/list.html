@@ -1,0 +1,49 @@
+{% extends "training_data/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'input_data:list' flavor.machine_name %}">Input Data</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>List of Input Data</h1>
+
+<a href='{% url "input_data:create" flavor.machine_name %}' class='button'>New Input Data</a>
+
+<hr>
+
+<table class='table' width='100%'>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Number of Entries</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for input_data in input_data_list %}
+		<tr>
+			<td>
+				{{ input_data.id }}
+			</td>
+			<td>
+				<a href='{% url ""|add:input_data.flavor.machine_name|add:":input_data_detail" input_data.id %}'>{{ input_data.name }}</a>
+			</td>
+			<td>
+				{{ input_data.number_of_entries }}
+			</td>
+			<td>
+				<a href='{% url ""|add:input_data.flavor.machine_name|add:":generate_input_data" input_data.id %}' class='button'>Generate</a>
+				<a href='{% url "input_data:delete" input_data.id %}' class='button'>Delete</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

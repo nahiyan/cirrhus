@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+
+{% block page_title %}
+List of Flavors
+{% endblock %}
+
+{% block content %}
+    {% if flavors %}
+        {% for flavor in flavors %}
+            <div class='box'>
+                <a href='{{ flavor.machine_name }}'>{{ flavor.name }}</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No flavors exist!</div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "training_sessions/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'training_sessions:list' flavor.machine_name %}">Training Sessions</a></li>
+		<li><a href="{% url 'training_sessions:detail' training_session.id %}">{{ training_session.name }}</a></li>
+		<li><a href="">Run</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>Run Training Session - {{ training_session.name }}</h1>
+
+<form action='{% url ""|add:flavor.machine_name|add:":train" training_session.id %}' method='POST'>
+	{% csrf_token %}
+
+	<div class="field">
+		<label class="label" for="iterations">Number of Iterations (x10,000)</label>
+		
+		<div class="control">
+			<input class="input" type="text" name='iterations' id='iterations' placeholder="Number of Iterations (x10,000)">
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label" for="alpha">Alpha Value (Optional)</label>
+		
+		<div class="control">
+			<input class="input" type="text" name='alpha' id='alpha' placeholder="Alpha Value. E.g. 0.01">
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label">Algorithm</label>
+		<div class="select">
+			<select name='algorithm'>
+				<option value='sgd'>Stochastic Gradient Descent</option>
+				<option value='gd'>Simple Gradient Descent</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label">Training Data</label>
+		<div class="select">
+			<select name='training_data'>
+				{% for training_data in training_data_list %}
+					<option value='{{  training_data.id }}'>{{ training_data.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<div class="field">
+		<label class="label">Snapshot</label>
+		<div class="select">
+			<select name='snapshot'>
+				{% for snapshot in snapshots %}
+					<option value='{{  snapshot.id }}'>{{ snapshot.id }} - {{ snapshot.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<input type='submit' class="button is-primary" value='Run'>
+</form>
+{% endblock %}

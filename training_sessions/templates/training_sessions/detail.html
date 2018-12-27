@@ -1,0 +1,106 @@
+{% extends "training_sessions/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'training_sessions:list' ''|add:flavor.machine_name %}">Training Sessions</a></li>
+		<li><a href="">{{ training_session.name }}</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block head %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
+{% endblock %}
+
+{% block script %}
+window.onload = function(){
+
+    var data = [
+    	{% for log in logs %}
+			[
+				{{ log.snapshot.id }},
+				{{ log.cost }}
+			],
+    	{% endfor %}
+    ];
+
+    new Dygraph(
+    	document.getElementById("graph"),
+		data,
+		{
+			labels: ["Snapshot", "Cost"],
+			xlabel: [ "Snapshot IDs" ],
+			ylabel: [ "Costs" ]
+		});
+};
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>Summary</h1>
+
+<div id="graph"></div>
+<hr>
+
+<h1 class='title'>Settings</h1>
+Layer Sizes: {{ flavor.number_of_input_neurons }}, {{ training_session.hidden_layers }}, {{ flavor.number_of_output_neurons }}.
+
+<hr>
+
+<h1 class='title'>List of Snapshots</h1>
+
+<table class='table' width='100%'>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Preview</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for snapshot in snapshots %}
+		<tr>
+			<td>
+				{{ snapshot.id }}
+			</td>
+			<td>
+				<a href='{% url "snapshots:detail" snapshot.id %}'>{{ snapshot.name }}</a>
+			</td>
+			<td>
+				<form action='{% url ""|add:flavor.machine_name|add:":run" %}' method='POST'>
+					{% csrf_token %}
+
+					<div class="field">
+						<label class="label">Input Data</label>
+						<div class="select">
+							<select name='input_data'>
+								{% for input_data in input_data_list %}
+									<option value='{{  input_data.id }}'>{{ input_data.name }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<input type='hidden' name='training_session' value='{{ training_session.id }}'>
+
+					<input type='hidden' name='snapshot' value='{{ snapshot.id }}'>
+
+					<input type='hidden' name='compare' value='no'>
+
+					<input type='hidden' name='output' value='graph'>
+
+					<input type='submit' class="button" value='Preview'>
+				</form>
+			</td>
+			<td>
+				<a href='{% url "snapshots:delete" snapshot.id %}' class='button'>Delete</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

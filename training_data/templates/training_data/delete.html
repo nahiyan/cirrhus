@@ -1,0 +1,23 @@
+{% extends "training_data/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'training_data:list' flavor.machine_name %}">Training Data</a></li>
+		<li><a href="">Delete</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>Are you sure you want to delete '{{ training_data.name }}'?</h1>
+
+<form action='' method='POST'>
+	{% csrf_token %}
+
+	<input type='submit' class="button is-danger" value='Yes'>
+	<input type='submit' class="button" value='No'>
+</form>
+{% endblock %}

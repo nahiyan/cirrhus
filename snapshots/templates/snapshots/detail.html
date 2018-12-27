@@ -1,0 +1,48 @@
+{% extends "snapshots/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'training_sessions:list' flavor.machine_name %}">Training Sessions</a></li>
+		<li><a href="{% url 'training_sessions:detail' training_session.id %}">{{ training_session.name }}</a></li>
+		<li><a href="">{{ snapshot.name }}</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>Run</h1>
+
+<form action='{% url ""|add:flavor.machine_name|add:":run" %}' method='POST'>
+	{% csrf_token %}
+
+	<div class="field">
+		<label class="label">Input Data</label>
+		<div class="select">
+			<select name='input_data'>
+				{% for input_data in input_data_list %}
+					<option value='{{  input_data.id }}'>{{ input_data.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<input type='hidden' name='training_session' value='{{ training_session.id }}'>
+
+	<input type='hidden' name='snapshot' value='{{ snapshot.id }}'>
+
+	<div class="field">
+		<label class="label">Ouput</label>
+		<div class="select">
+			<select name='output'>
+				<option value='graph'>Graph</option>
+				<option value='plain_text'>Plain Text</option>
+			</select>
+		</div>
+	</div>
+
+	<input type='submit' class="button is-primary" value='Run'>
+</form>
+{% endblock %}

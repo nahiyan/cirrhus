@@ -1,0 +1,3 @@
+*.pyc
+cirrhus_venv/*
+db.sqlite3

@@ -1,0 +1,30 @@
+{% extends "sine/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url 'sine:index' %}">Sine</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class="title">Run</h1>
+<a href='{% url "sine:run" %}'>Run</a>
+
+<hr>
+
+<h1 class="title">Input Data</h1>
+<a href='{% url "input_data:list" "sine" %}'>Manage Input Data</a>
+
+<hr>
+
+<h1 class="title">Training Sessions</h1>
+<a href='{% url "training_sessions:list" "sine" %}'>Manage Training Sessions</a>
+
+<hr>
+
+<h1 class="title">Training Data</h1>
+<a href='{% url "training_data:list" "sine" %}'>Manage Training Data</a>
+{% endblock %}

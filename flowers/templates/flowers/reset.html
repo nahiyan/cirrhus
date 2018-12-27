@@ -1,0 +1,10 @@
+{% extends "flowers/base.html" %}
+
+{% block content %}
+<h1 class="title">Reset Training Data?</h1>
+<form action='{% url "flowers:reset" training_data.id %}' method='POST'>
+	{% csrf_token %}
+	<input class="button is-danger" type='submit' value='Yes'>
+	<a class="button" href='{% url "training_data:list" "flowers" %}'>No</a>
+</form>
+{% endblock %}

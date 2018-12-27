@@ -1,0 +1,29 @@
+{% extends "sine/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url 'sine:index' %}">Sine</a></li>
+		<li><a href="{% url 'input_data:list' 'sine' %}">Input Data</a></li>
+		<li><a href="">{{ input_data.name }}</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class="title">Input Data - {{ input_data.name }}</h1>
+
+<form action='' method='POST'>
+	{% csrf_token %}
+
+	<div class="field">
+		<label class="label" for="values">Values</label>
+		<div class="control">
+			<textarea class="textarea" name="values" id="values" placeholder="Values. E.g. 2, 5.6, -1.2">{{ sine_input_data_flattened }}</textarea>
+		</div>
+	</div>
+
+	<input type='submit' class="button is-success" value='Save'>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "training_data/base.html" %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul>
+		<li><a href="{% url 'flavors:index' %}">Flavors</a></li>
+		<li><a href="{% url ''|add:flavor.machine_name|add:':index' %}">{{ flavor.name }}</a></li>
+		<li><a href="{% url 'training_data:list' flavor.machine_name %}">Training Data</a></li>
+		<li><a href="">Create</a></li>
+	</ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class='title'>New Training Data</h1>
+
+<form action='' method='POST'>
+	{% csrf_token %}
+
+	<div class="field">
+		<label class="label" for="name">Name</label>
+		<div class="control">
+			<input class="input" name="name" id="name" type="text" placeholder="Name">
+		</div>
+	</div>
+
+	<input type='submit' class="button is-success" value='Create'>
+</form>
+{% endblock %}
